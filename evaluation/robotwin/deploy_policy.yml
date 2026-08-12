@@ -1,0 +1,18 @@
+policy_name: evaluation.robotwin.model2robotwin_interface
+# Only used by RoboTwin to name eval result folders/files.
+ckpt_setting: fact
+instruction_type: unseen
+host: "127.0.0.1"
+port: 8093
+action_dim: 14
+# Replan every 48 env steps by default; set to 1 for fully closed-loop evaluation.
+execute_actions_per_plan: 48
+server_timeout_ms: 30000
+server_wait_seconds: 120.0
+trace_root: ""
+print_action_stats: false
+# Best-of-N inference — set enable_sample to true and best_of_n > 1 to activate.
+enable_sample: false
+best_of_n: 1
+enable_value_vis: false
+trace_value_only: false

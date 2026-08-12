@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fact"
+version = "0.1.0"
+description = "FACT: a world-action model for robot policy learning on RoboTwin — joint video/action prediction fine-tuned from Wan2.2-TI2V-5B"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.10"
+
+[tool.setuptools.packages.find]
+# scripts/evaluation are packaged so the documented entrypoints also resolve
+# after a non-editable `pip install .`. Drop them if the generic top-level names
+# are a problem in your environment and install with `pip install -e .`.
+include = ["world_action_model*", "fact_train*", "fact_datasets*", "scripts*", "evaluation*"]
+
+[tool.setuptools.package-data]
+# Launcher resolves accelerate_configs relative to __file__, so they must ship.
+"fact_train.distributed" = ["accelerate_configs/*.json"]
+"evaluation.robotwin" = ["*.yml", "*.sh", "*.patch"]

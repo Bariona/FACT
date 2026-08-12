@@ -1,0 +1,18 @@
+Make RoboTwin's eval entrypoint respect the --test_num override that
+launch_client.sh passes (upstream hardcodes 100 episodes per task).
+
+Apply from your RoboTwin checkout (tested at commit 2eeec32):
+
+    git apply /path/to/fact/evaluation/robotwin/robotwin_test_num.patch
+
+--- a/script/eval_policy.py
++++ b/script/eval_policy.py
+@@ -158,7 +158,7 @@
+
+     st_seed = 100000 * (1 + seed)
+     suc_nums = []
+-    test_num = 100
++    test_num = int(usr_args.get("test_num", 100))
+     topk = 1
+
+     model = get_model(usr_args)

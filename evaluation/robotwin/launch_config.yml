@@ -1,0 +1,80 @@
+# Shared defaults for `launch_server.sh` and `launch_client.sh`.
+# Precedence: shell env vars > this YAML > script defaults.
+
+server:
+  FACT_CONDA_ENV: fact
+  SERVER_HOST: 127.0.0.1
+  PORT: 8093
+  MODEL_ID: ${REPO_ROOT}/models/Wan2.2-TI2V-5B-Diffusers
+  # Released checkpoint. For your own run:
+  #   ${REPO_ROOT}/experiments/robotwin/models/<checkpoint>/transformer
+  #   ${REPO_ROOT}/artifacts/robotwin/norm_stats_delta.json
+  TRANSFORMER_PATH: ${REPO_ROOT}/models/fact-wam/transformer
+  STATS_PATH: ${REPO_ROOT}/models/fact-wam/norm_stats_delta.json
+  # Fallback T5 embedding, used only when the client sends no instruction text.
+  T5_EMBEDDING_PKL: ""
+  DEVICE: cuda:0
+  TEXT_ENCODER_DEVICE: cuda:0
+  DTYPE: bf16
+  # Tokenizer max length / exported T5 embedding length.
+  TEXT_LEN: 512
+  T5_LEN: 64
+  ACTION_CHUNK: 48
+  NUM_FRAMES: 5
+  NUM_INFERENCE_STEPS: 20
+  # 0.0 disables classifier-free guidance.
+  GUIDANCE_SCALE: 0.0
+  # Return decoded future frames to the client (needed for client-side VIS_DIR).
+  RETURN_IMAGES: "0"
+  # KV-cache the fixed prefix; action-only SDPA no-CFG path.
+  ENABLE_PREFIX_CACHE: "1"
+  # Return actions only, skipping future_state/value denoising.
+  SKIP_FUTURE_STATE_VALUE: "0"
+
+client:
+  ROBOTWIN_PATH: /your/path/to/RoboTwin
+  DEPLOY_POLICY_PATH: ${REPO_ROOT}/evaluation/robotwin/deploy_policy.yml
+  # Conda env name or env path; the launcher uses its `bin/python` directly.
+  ROBOTWIN_CONDA_ENV: RoboTwin
+  # Set to override the interpreter derived from ROBOTWIN_CONDA_ENV.
+  CLIENT_PYTHON: ""
+  # Optional, machine-specific: GPU compute capability (8.0 A100, 8.9 RTX 40xx,
+  # 9.0 H100, 12.0 Blackwell) and extra lib paths, e.g. "/usr/lib64:/usr/lib".
+  TORCH_CUDA_ARCH_LIST: ""
+  EXTRA_LD_LIBRARY_PATH: ""
+  TASK_NAME: beat_block_hammer
+  TASK_CONFIG: demo_clean
+  # The first env seed is `100000 * (1 + SEED)`.
+  SEED: 0
+  # Number of *valid* evaluation episodes (seeds failing the expert check are retried).
+  TEST_NUM: 50
+  # Must match the server PORT above.
+  PORT: 8093
+  # Adapter module implementing get_model/eval/reset_model.
+  POLICY_NAME: evaluation.robotwin.model2robotwin_interface
+  # `1` => replan every env step; `N>1` => execute the first N actions of each chunk.
+  # Empty values below fall back to deploy_policy.yml.
+  EXECUTE_ACTIONS_PER_PLAN: ""
+  SERVER_TIMEOUT_MS: ""
+  SERVER_WAIT_SECONDS: ""
+  TRACE_ROOT: ""
+  PRINT_ACTION_STATS: ""
+  # Run BEST_OF_N iid denoising passes per plan and execute the chunk with the
+  # lowest predicted value (time-to-go; smaller = closer to success).
+  ENABLE_SAMPLE: "0"
+  BEST_OF_N: 4
+  # Value-curve PNG per episode; no-op unless TRACE_ROOT is set.
+  ENABLE_VALUE_VIS: "0"
+  # Keep only the value curve in TRACE_ROOT, dropping the large state/action traces.
+  TRACE_VALUE_ONLY: "1"
+  # Prediction videos -> VIS_DIR/<task>/seed_X_episode_Y_pred_video.mp4;
+  # no-op unless the server runs with RETURN_IMAGES=1.
+  VIS_DIR: ""
+  # Render RGB only on replan steps, using a qpos-only observation in between.
+  # Disable for exact per-step image logging.
+  LOW_FREQUENCY_RGB: "1"
+  # With LOW_FREQUENCY_RGB=1, also skip the per-action render sync unless the
+  # viewer or eval video is active.
+  SKIP_ACTION_RENDER_SYNC: "1"
+  # RoboTwin task configs enable eval video by default; "0" keeps sweeps fast.
+  EVAL_VIDEO_LOG: "0"

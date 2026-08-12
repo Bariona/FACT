@@ -1,0 +1,39 @@
+# Installed after torch/torchvision (see setup_env.sh).
+# lerobot==0.3.2 is installed separately with --no-deps so it cannot move the
+# Torch stack; the runtime deps it needs are pinned here instead.
+#
+# Known `pip check` complaints, all expected and safe: lerobot declares extras
+# we never import (cmake, flask, gymnasium, pynput, pyserial, rerun-sdk,
+# termcolor, torchcodec — teleop/visualization features), and it pins
+# datasets<=3.6.0 while we use 4.8.4 (the dataset-reading subset we rely on
+# works with 4.8.4; verified by the training/eval pipeline).
+accelerate==1.13.0
+av
+datasets==4.8.4
+deepdiff<9.0.0,>=7.0.1
+diffusers==0.36.0
+draccus==0.10.0
+einops
+ftfy
+h5py
+hf-transfer
+huggingface-hub[cli]==0.34.4
+imageio
+imageio-ffmpeg
+jsonlines
+matplotlib
+numpydantic
+nvidia-ml-py
+opencv-python-headless
+pandas
+peft==0.19.0
+pillow
+psutil
+pyarrow
+pydantic
+pyyaml
+sentencepiece
+tqdm
+transformers==4.51.3
+tyro
+wandb

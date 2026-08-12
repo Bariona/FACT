@@ -1,0 +1,20 @@
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+
+# data / models / run outputs at the repo root (never commit these).
+# Anchored with a leading slash so they cannot match source dirs like
+# world_action_model/models/ or fact_datasets/datasets/.
+/datasets/
+/models/
+/artifacts/
+/experiments/
+/vis/
+/tmp/
+/_tmp/
+/wandb/
+/eval_runs/
+
+.vscode/
+.idea/
