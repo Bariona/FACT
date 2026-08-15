@@ -10,6 +10,7 @@
 [![Project Page](https://img.shields.io/badge/%F0%9F%8C%90%20Project%20Page-fact--wam.github.io-4b8bbe)](https://fact-wam.github.io/)
 [![Paper](https://img.shields.io/badge/%F0%9F%93%84%20Paper-PDF-b31b1b)](https://arxiv.org/abs/2608.10232)
 [![Model](https://img.shields.io/badge/%F0%9F%A4%97%20Model-fact--wam-ffd21e)](https://huggingface.co/Bariona/fact-wam)
+[![Live Demo](https://img.shields.io/badge/%F0%9F%A4%97%20Live%20Demo-Spaces-ff7c00)](https://huggingface.co/spaces/Bariona/fact-world-action-model)
 [![License](https://img.shields.io/badge/License-Apache%202.0-3da639)](LICENSE)
 
 </div>
@@ -27,6 +28,8 @@
 - **Optional best-of-N scoring.** The value head ranks sampled action candidates at inference.
 
 This repository is the official implementation, containing the end-to-end RoboTwin pipeline: **data prep → training → inference → closed-loop simulator evaluation**.
+
+> 🎮 **Try it live** — run the released checkpoint in your browser on Hugging Face Spaces: [Bariona/fact-world-action-model](https://huggingface.co/spaces/Bariona/fact-world-action-model)
 
 | Path | What it is |
 | --- | --- |
